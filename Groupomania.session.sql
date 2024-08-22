@@ -1,0 +1,3 @@
+SELECT * FROM Likes;
+SELECT * FROM Posts;
+SELECT * FROM Users;

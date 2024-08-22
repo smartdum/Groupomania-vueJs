@@ -1,0 +1,18 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+      {
+        "previewLimit": 50,
+        "driver": "SQLite",
+        "name": "Groupomania",
+        "database": "${workspaceFolder:Groupomania-vueJs}/Back/127.0.0.1.db"
+      }
+    ]
+  }
+}
