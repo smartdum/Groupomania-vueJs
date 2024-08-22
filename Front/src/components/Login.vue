@@ -15,17 +15,19 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from "vue";
+  import { ref } from "vue";
   import type { Ref } from "vue";
+  import { useConnexionStore } from "@/stores/connexion";
 
   const loading: Ref<boolean> = ref(false);
   const valid: Ref<boolean> = ref(false);
   const login: Ref<string> = ref("");
   const password: Ref<string> = ref("");
-  const emit = defineEmits(["isLogged"]);
 
   const loginRules = [(v: string) => !!v || "Login is required", (v: string) => (v && v.length <= 10) || "Login must be less than 10 characters"];
   const passwordRules = [(v: string) => !!v || "Password is required", (v: string) => (v && v.length <= 10) || "Password must be less than 10 characters"];
+
+  const connexionStore = useConnexionStore();
 
   /**
    * Submits the login and password to the server.
@@ -37,14 +39,6 @@
   const onSubmit = (): void => {
     console.log("login", login.value);
     console.log("password", password.value);
-    localStorage.removeItem("token");
-    localStorage.setItem("token", "flkvnklfbn<kldfsnb");
-    console.log("token : ", localStorage.getItem("token"));
-    emit("isLogged", true);
+    connexionStore.login(login.value, password.value);
   };
-
-  onMounted(() => {
-    console.clear();
-    localStorage.removeItem("token");
-  });
 </script>

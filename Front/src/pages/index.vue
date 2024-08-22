@@ -1,30 +1,41 @@
 <template>
-  <Header @isLogged="emitFromChild" />
+  <Header @newPostEmit="emitFromChild" />
   <v-card>
-    <v-btn @click="test">TEST</v-btn>
+    <v-btn @click="connexionStore.checkLoginStatus()">TEST</v-btn>
   </v-card>
-  <Home v-if="isLogged" />
-  <Login v-else @isLogged="emitFromChild" />
+  <v-container v-if="connexionStore.checkLoginStatus()">
+    <NewPost v-if="newPost" @newPostEmit="emitFromChild" />
+    <Home v-else />
+  </v-container>
+  <v-container v-else>
+    <Login />
+  </v-container>
   <Footer />
 </template>
 
 <script lang="ts" setup>
   import { onMounted, ref } from "vue";
   import type { Ref } from "vue";
+  import { useConnexionStore } from "@/stores/connexion";
 
-  const isLogged: Ref<boolean> = ref(false);
+  const connexionStore = useConnexionStore();
+  const newPost: Ref<boolean> = ref(false);
 
-  const emitFromChild = (payLoad: boolean): void => {
-    console.log("emitFromChild : ", payLoad);
-    isLogged.value = payLoad;
-  };
-
-  const test = (): void => {
-    console.log("isLogged : ", isLogged.value);
+  /**
+   * Handles emitted events from child components.
+   *
+   * @param {Record<string, boolean>} payLoad - The payload emitted from the child component. The payload should be an object with a single key-value pair, where the key is "newPostEmit" and the value is a boolean.
+   * @returns {void}
+   */
+  const emitFromChild = (payLoad: Record<string, boolean>): void => {
+    console.log(payLoad);
+    newPost.value = payLoad["newPost"];
+    console.log("newPost.value", newPost.value);
   };
 
   onMounted(() => {
     console.clear();
-    localStorage.removeItem("token");
+    console.log("Hello World !");
+    connexionStore.logout();
   });
 </script>
