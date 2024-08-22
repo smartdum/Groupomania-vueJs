@@ -7,5 +7,8 @@
 </template>
 
 <script lang="ts" setup>
-  //
+  import { useTheme } from "vuetify";
+  const theme = useTheme();
+  console.log(theme.global.name.value);
+  console.log(theme.current.value.colors);
 </script>
